@@ -6,6 +6,7 @@ canvas.height = window.innerHeight;
 // Variables
 let numbers = [];
 let colors = [];
+let colors2 = [];
 // Event Listeners
 
 // Utility Functions
@@ -16,11 +17,10 @@ const randomColor = c => c[Math.floor(Math.random() * c.length)];
 //--------------------------------------------------------------------------------
 // Objects
 
-for (i = 0; i < canvas.width; i++) {
-  let r = Math.round(Math.random() * 360);
-  let g = Math.round(Math.random() * 255);
-  let b = Math.round(Math.random() * 255);
-  colors.push([r, 100, 50]);
+for (i = 0; i < canvas.width / 2; i++) {
+  let h = Math.round(Math.random() * 360);
+  colors.push([h, 100, 50]);
+  colors2.push([h, 100, 50]);
 }
 
 function bubblesort() {
@@ -32,10 +32,25 @@ function bubblesort() {
     }
   }
 }
+function cocktailsort() {
+  for (var i = 0; i < colors2.length - 2; i++) {
+    if (colors2[i][0] > colors2[i + 1][0]) {
+      var temp = colors2[i];
+      colors2[i] = colors2[i + 1];
+      colors2[i + 1] = temp;
+    }
+  }
+  for (i = colors2.length - 2; i > 0; i--) {
+    if (colors2[i][0] > colors2[i + 1][0]) {
+      var temp1 = colors2[i];
+      colors2[i] = colors2[i + 1];
+      colors2[i + 1] = temp1;
+    }
+  }
+}
 
 //--------------------------------------------------------------------------------
 // Animate
-let x = 0;
 const animate = _ => {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, innerWidth, innerHeight);
@@ -44,6 +59,17 @@ const animate = _ => {
     c.fillStyle = x;
     c.fillRect(i, canvas.height, 1, -(e[0] / 360) * canvas.height);
   });
+  colors2.forEach(function(e, i) {
+    x = `hsl(${e[0]}, ${e[1]}%, ${e[2]}%)`;
+    c.fillStyle = x;
+    c.fillRect(
+      i + colors.length,
+      canvas.height,
+      1,
+      -(e[0] / 360) * canvas.height
+    );
+  });
+  cocktailsort();
   bubblesort();
 };
 animate();
