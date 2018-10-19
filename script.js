@@ -7,6 +7,8 @@ canvas.height = window.innerHeight;
 let numbers = [];
 let colors = [];
 let colors2 = [];
+let colors3 = [];
+let colors4 = [];
 // Event Listeners
 
 // Utility Functions
@@ -21,8 +23,11 @@ for (i = 0; i < canvas.width / 2; i++) {
   let hue = Math.round(Math.random() * 360);
   colors.push(hue);
   colors2.push(hue);
+  colors3.unshift(hue);
+  colors4.unshift(hue);
 }
-
+colors3.sort((a, b) => a - b).reverse();
+colors4.sort((a, b) => a - b).reverse();
 function bubblesort() {
   for (var i = 0; i < colors.length - 1; i++) {
     if (colors[i] > colors[i + 1]) {
@@ -48,6 +53,31 @@ function cocktailsort() {
     }
   }
 }
+function bubblesort2() {
+  for (var i = 0; i < colors3.length - 1; i++) {
+    if (colors3[i] > colors3[i + 1]) {
+      var temp = colors3[i + 1];
+      colors3[i + 1] = colors3[i];
+      colors3[i] = temp;
+    }
+  }
+}
+function cocktailsort2() {
+  for (var i = 0; i < colors4.length - 2; i++) {
+    if (colors4[i] > colors4[i + 1]) {
+      var temp = colors4[i];
+      colors4[i] = colors4[i + 1];
+      colors4[i + 1] = temp;
+    }
+  }
+  for (i = colors4.length - 2; i > 0; i--) {
+    if (colors4[i] > colors4[i + 1]) {
+      var temp1 = colors4[i];
+      colors4[i] = colors4[i + 1];
+      colors4[i + 1] = temp1;
+    }
+  }
+}
 
 //--------------------------------------------------------------------------------
 // Animate
@@ -57,18 +87,46 @@ const animate = _ => {
   colors.forEach(function(e, i) {
     x = `hsl(${e}, 100%, 50%)`;
     c.fillStyle = x;
-    c.fillRect(i, canvas.height, 1, -(e / 360) * canvas.height);
+    c.fillRect(i, canvas.height / 2, 1, (-(e / 360) * canvas.height) / 2);
   });
   colors2.forEach(function(e, i) {
     x = `hsl(${e}, 100%, 50%)`;
     c.fillStyle = x;
-    c.fillRect(i + colors.length, canvas.height, 1, -(e / 360) * canvas.height);
+    c.fillRect(
+      i + colors.length,
+      canvas.height / 2,
+      1,
+      (-(e / 360) * canvas.height) / 2
+    );
+  });
+  colors3.forEach(function(e, i) {
+    x = `hsl(${e}, 100%, 50%)`;
+    c.fillStyle = x;
+    c.fillRect(i, canvas.height, 1, (-(e / 360) * canvas.height) / 2);
+  });
+  colors4.forEach(function(e, i) {
+    x = `hsl(${e}, 100%, 50%)`;
+    c.fillStyle = x;
+    c.fillRect(
+      i + colors.length,
+      canvas.height,
+      1,
+      (-(e / 360) * canvas.height) / 2
+    );
   });
   cocktailsort();
   bubblesort();
+  cocktailsort2();
+  bubblesort2();
   c.font = "30px Arial";
   c.fillStyle = "white";
-  c.fillText("Bubble Sort", canvas.width / 5, 50);
-  c.fillText("Cocktail Sort", canvas.width / 1.4, 50);
+  c.fillText("Bubble Sort", 50, 50);
+  c.fillText("Cocktail Sort", canvas.width / 2 + 50, 50);
+  c.fillText("Bubble Sort Reversed", 50, canvas.height / 2 + 50);
+  c.fillText(
+    "Cocktail Sort Reversed",
+    canvas.width / 2 + 50,
+    canvas.height / 2 + 50
+  );
 };
 animate();
