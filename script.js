@@ -66,5 +66,9 @@ const animate = _ => {
   });
   cocktailsort();
   bubblesort();
+  c.font = "30px Arial";
+  c.fillStyle = "white";
+  c.fillText("Bubble Sort", canvas.width / 5, 50);
+  c.fillText("Cocktail Sort", canvas.width / 1.4, 50);
 };
 animate();
